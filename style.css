@@ -80,4 +80,23 @@ body {
     height: 100%;
     z-index: -1; /* Para que quede detrás del contenido */
   }
+
+  .tabla-tipos {
+    margin: 2rem;
+    color: white;
+    text-align: center;
+  }
+  .tabla-tipos table {
+    border-collapse: collapse;
+    margin: auto;
+    background: #1d1b3f;
+    color: #fff;
+  }
+  .tabla-tipos th, .tabla-tipos td {
+    border: 1px solid #999;
+    padding: 6px 10px;
+  }
+  .tabla-tipos th {
+    background-color: #282a5b;
+  }
   
