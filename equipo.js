@@ -55,6 +55,7 @@ const generaciones = {
         `;
         slot.style.borderColor = '#999';
         actualizarGrafico();
+        analizarFortalezas();
       }); // Aquí cerramos correctamente el bloque
 }); // Aquí cerramos el forEach correctamente
 
@@ -117,6 +118,144 @@ function actualizarGrafico() {
           }
         }
       }
+    });
+  }
+ 
+  function calcularFortalezasDebilidades(tipos) {
+    const fortaleza = {};
+    const debilidad = {};
+  
+    tipos.forEach(tipo => {
+      const efectividades = tablaTipos[tipo] || {};
+      for (const t in efectividades) {
+        const mult = efectividades[t];
+        if (mult > 1) fortaleza[t] = (fortaleza[t] || 0) + 1;
+        else if (mult < 1) debilidad[t] = (debilidad[t] || 0) + 1;
+      }
+    });
+  
+    const fortalezasTexto = Object.keys(fortaleza).map(t => `${t.toUpperCase()} (${fortaleza[t]})`).join(', ');
+    const debilidadesTexto = Object.keys(debilidad).map(t => `${t.toUpperCase()} (${debilidad[t]})`).join(', ');
+  
+    document.getElementById('fortalezas').textContent = fortalezasTexto || 'Ninguna clara';
+    document.getElementById('debilidades').textContent = debilidadesTexto || 'Ninguna clara';
+    
+    sugerirPokemon(debilidad);
+  }
+  analizarFortalezas();
+
+  const traducirTipo = {
+    "Planta": "grass", "Fuego": "fire", "Agua": "water", "Eléctrico": "electric",
+    "Normal": "normal", "Psíquico": "psychic", "Veneno": "poison", "Hielo": "ice",
+    "Lucha": "fighting", "Tierra": "ground", "Volador": "flying", "Fantasma": "ghost",
+    "Roca": "rock", "Bicho": "bug", "Acero": "steel", "Dragón": "dragon",
+    "Siniestro": "dark", "Hada": "fairy"
+  };
+  
+  const tablaTipos = {
+    normal: { rock: 0.5, ghost: 0, steel: 0.5 },
+    fire: { grass: 2, ice: 2, bug: 2, steel: 2, fire: 0.5, water: 0.5, rock: 0.5, dragon: 0.5 },
+    water: { fire: 2, ground: 2, rock: 2, water: 0.5, grass: 0.5, dragon: 0.5 },
+    electric: { water: 2, flying: 2, electric: 0.5, grass: 0.5, dragon: 0.5, ground: 0 },
+    grass: { water: 2, ground: 2, rock: 2, fire: 0.5, grass: 0.5, poison: 0.5, flying: 0.5, bug: 0.5, dragon: 0.5, steel: 0.5 },
+    ice: { grass: 2, ground: 2, flying: 2, dragon: 2, fire: 0.5, water: 0.5, ice: 0.5, steel: 0.5 },
+    fighting: { normal: 2, ice: 2, rock: 2, dark: 2, steel: 2, poison: 0.5, flying: 0.5, psychic: 0.5, bug: 0.5, fairy: 0.5, ghost: 0 },
+    poison: { grass: 2, fairy: 2, poison: 0.5, ground: 0.5, rock: 0.5, ghost: 0.5, steel: 0 },
+    ground: { fire: 2, electric: 2, poison: 2, rock: 2, steel: 2, grass: 0.5, bug: 0.5, flying: 0 },
+    flying: { grass: 2, fighting: 2, bug: 2, electric: 0.5, rock: 0.5, steel: 0.5 },
+    psychic: { fighting: 2, poison: 2, psychic: 0.5, steel: 0.5, dark: 0 },
+    bug: { grass: 2, psychic: 2, dark: 2, fire: 0.5, fighting: 0.5, poison: 0.5, flying: 0.5, ghost: 0.5, steel: 0.5, fairy: 0.5 },
+    rock: { fire: 2, ice: 2, flying: 2, bug: 2, fighting: 0.5, ground: 0.5, steel: 0.5 },
+    ghost: { psychic: 2, ghost: 2, dark: 0.5, normal: 0 },
+    dragon: { dragon: 2, steel: 0.5, fairy: 0 },
+    dark: { psychic: 2, ghost: 2, fighting: 0.5, dark: 0.5, fairy: 0.5 },
+    steel: { ice: 2, rock: 2, fairy: 2, fire: 0.5, water: 0.5, electric: 0.5, steel: 0.5 },
+    fairy: { fighting: 2, dragon: 2, dark: 2, fire: 0.5, poison: 0.5, steel: 0.5 }
+  };
+  
+  function analizarFortalezas() {
+    const tiposEquipo = [];
+    const promesas = [];
+  
+    const slotsConPokemon = Array.from(document.querySelectorAll('.slot')).filter(slot => slot.querySelector('span'));
+    const totalSlotsConPokemon = slotsConPokemon.length;
+  
+    slotsConPokemon.forEach(slot => {
+      const nombre = slot.querySelector('span')?.textContent;
+      if (!nombre) return;
+  
+      const promesa = fetch(`https://pokeapi.co/api/v2/pokemon/${nombre.toLowerCase()}`)
+        .then(res => res.json())
+        .then(data => {
+          data.types.forEach(t => {
+            const tipoTraducido = t.type.name.toLowerCase(); // ya están en inglés
+            tiposEquipo.push(tipoTraducido);
+          });
+        });
+      promesas.push(promesa);
+    });
+  
+    Promise.all(promesas).then(() => {
+      calcularFortalezasDebilidades(tiposEquipo);
+    });
+  }
+  
+  function calcularFortalezasDebilidades(tipos) {
+    const fortaleza = {};
+    const debilidad = {};
+  
+    tipos.forEach(tipo => {
+      const efectividades = tablaTipos[tipo];
+      if (!efectividades) return;
+  
+      for (const t in efectividades) {
+        const mult = efectividades[t];
+        if (mult > 1) fortaleza[t] = (fortaleza[t] || 0) + 1;
+        else if (mult < 1) debilidad[t] = (debilidad[t] || 0) + 1;
+      }
+    });
+  
+    const fortalezasTexto = Object.keys(fortaleza).map(t => `${t.toUpperCase()} (${fortaleza[t]})`).join(', ');
+    const debilidadesTexto = Object.keys(debilidad).map(t => `${t.toUpperCase()} (${debilidad[t]})`).join(', ');
+  
+    document.getElementById('fortalezas').textContent = fortalezasTexto || 'Ninguna clara';
+    document.getElementById('debilidades').textContent = debilidadesTexto || 'Ninguna clara';
+
+    sugerirPokemon(debilidad);
+  }
+  
+  const sugerenciasPorTipo = {
+    fire: ["Charizard", "Flareon"],
+    water: ["Squirtle", "Vaporeon"],
+    grass: ["Bulbasaur", "Leafeon"],
+    electric: ["Pikachu", "Jolteon"],
+    psychic: ["Espeon", "Mew"],
+    dark: ["Umbreon"],
+    fairy: ["Togepi"],
+    normal: ["Snorlax", "Eevee"]
+  };
+  
+  function sugerirPokemon(debilidades) {
+    const contenedor = document.getElementById('sugerencias-lista');
+    if (!contenedor) return;
+  
+    contenedor.innerHTML = "";
+  
+    const tiposFaltantes = Object.keys(debilidades).slice(0, 4);
+  
+    tiposFaltantes.forEach(tipo => {
+      const sugeridos = sugerenciasPorTipo[tipo];
+      if (!sugeridos) return;
+  
+      sugeridos.forEach(nombre => {
+        const div = document.createElement('div');
+        div.className = "sugerencia";
+        div.innerHTML = `
+          <img src="https://img.pokemondb.net/sprites/black-white/normal/${nombre.toLowerCase()}.png" alt="${nombre}" style="width:40px; height:40px; vertical-align:middle; margin-right: 8px;">
+          <span>${nombre} (${tipo})</span>
+        `;
+        contenedor.appendChild(div);
+      });
     });
   }
   

@@ -475,4 +475,49 @@ body {
     width: 100% !important;
     height: auto !important;
   }
+
+  .analisis-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #1e1e2e;
+    border-radius: 10px;
+    color: white;
+    text-align: left;
+  }
+  .analisis-container span {
+    color: #00f7ff;
+    font-weight: bold;
+  }
+
+  #sugerencias-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .sugerencia {
+    background: #2a2a3a;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #444;
+    transition: background 0.3s;
+  }
+  .sugerencia:hover {
+    background: #444;
+  }
+      
+  .pokemon-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px;
+    display: inline-block;
+    width: 180px;
+    background-color: #f9f9f9;
+  }
   
