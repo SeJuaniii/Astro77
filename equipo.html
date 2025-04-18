@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Constructor de Equipo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="constructor-container">
+    <h1>🛠️ Constructor de Equipo</h1>
+
+    <section class="zona-seleccion">
+      <h2>Seleccioná tus Pokémon</h2>
+      <div id="selector-container" class="lista-pokemon"></div>
+      <div class="gen-selector">
+        <button onclick="cargarGeneracion(1)">Gen 1</button>
+        <button onclick="cargarGeneracion(2)">Gen 2</button>
+      </div>      
+    </section>
+
+    <section class="zona-equipo">
+      <h2>Tu equipo</h2>
+      <div class="slots-equipo">
+        <div class="slot">1</div>
+        <div class="slot">2</div>
+        <div class="slot">3</div>
+        <div class="slot">4</div>
+        <div class="slot">5</div>
+        <div class="slot">6</div>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<div id="chartContainer">
+  <canvas id="grafico"></canvas>
+</div>
+<script src="equipo.js"></script>  
+</body>
+</html>

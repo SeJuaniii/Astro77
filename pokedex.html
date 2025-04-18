@@ -7,15 +7,39 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="container">
-    <h1>Pokédex Interactiva</h1>
-    <input type="text" id="search" placeholder="Busca un Pokémon por nombre o número..." />
-    <div id="pokedex-result"></div>
-    <details id="movimientos">
-        <summary>📘 Movimientos por nivel</summary>
-        <ul id="lista-movimientos"></ul>
-      </details>      
-  </main>
+    <main class="contenedor-pokedex">
+        <!-- Columna izquierda -->
+        <div class="pokemon-info-basica" id="info-basica">
+          <h2 id="nombre-pokemon"></h2>
+          <div class="sprites" id="sprites"></div>
+          <p><strong>Tipo:</strong> <span id="tipo"></span></p>
+          <p><strong>Habilidades:</strong> <span id="habilidades"></span></p>
+          <p><strong>HP:</strong> <span id="hp"></span></p>
+          <p><strong>Ataque:</strong> <span id="atk"></span></p>
+          <p><strong>Defensa:</strong> <span id="def"></span></p>
+        </div>
+      
+        <!-- Columna derecha -->
+        <div class="pokemon-info-avanzada">
+          <input type="text" id="search" placeholder="Busca un Pokémon por nombre o número..." />
+      
+          <details id="movimientos">
+            <summary>📘 Movimientos por nivel</summary>
+            <ul id="lista-movimientos"></ul>
+          </details>
+      
+          <!-- Aquí podés seguir agregando historia, captura, etc -->
+          <details>
+            <summary>📖 Historia</summary>
+            <p>Pronto podrás ver una descripción y rol del Pokémon en los juegos.</p>
+          </details>
+      
+          <details>
+            <summary>🎯 Cómo capturarlo</summary>
+            <p>Información por juego sobre cómo obtenerlo...</p>
+          </details>
+        </div>
+      </main>      
   <script src="pokedex.js"></script>
 </body>
 </html>
