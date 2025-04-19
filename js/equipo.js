@@ -53,9 +53,16 @@ const generaciones = {
           <img src="https://img.pokemondb.net/sprites/black-white/normal/${nombre.toLowerCase()}.png" class="slot-img">
           <span>${nombre}</span>
         `;
+        // 🔁 Guardar equipo actual en localStorage
+const equipoActual = Array.from(document.querySelectorAll('.slot'))
+.map(s => s.querySelector('span')?.textContent)
+.filter(Boolean); 
         slot.style.borderColor = '#999';
         actualizarGrafico();
         analizarFortalezas();
+        // Mostrar botón "Ir a batalla" si hay 6 slots ocupados
+const slotsOcupados = Array.from(document.querySelectorAll(".slot span")).filter(Boolean);
+document.getElementById("ir-a-batalla").style.display = (slotsOcupados.length === 6) ? "block" : "none";
       }); // Aquí cerramos correctamente el bloque
 }); // Aquí cerramos el forEach correctamente
 
@@ -258,4 +265,26 @@ function actualizarGrafico() {
       });
     });
   }
+  
+  const botonIrABatalla = document.getElementById('ir-a-batalla');
+
+  botonIrABatalla.addEventListener('click', () => {
+    const equipoJugador = [];
+    const slots = document.querySelectorAll('.slot');
+  
+    slots.forEach(slot => {
+      const contenido = slot.textContent.trim();
+      if (contenido !== '') {
+        equipoJugador.push(contenido);
+      }
+    });
+  
+    if (equipoJugador.length === 3) {
+      localStorage.setItem('equipoPokemon', JSON.stringify(equipoJugador));
+      window.location.href = "batalla.html";
+    } else {
+      alert("Tu equipo debe tener exactamente 3 Pokémon.");
+    }    
+  });
+  
   

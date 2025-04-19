@@ -521,3 +521,137 @@ body {
     background-color: #f9f9f9;
   }
   
+  .timeline ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .timeline li {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 2px solid #888;
+  }
+  
+  .contacto form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .contacto label,
+  .contacto input,
+  .contacto textarea,
+  .contacto button {
+    margin-bottom: 10px;
+  }
+
+  .batalla-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .equipo {
+    width: 30%;
+  }
+  
+  .vs {
+    width: 30%;
+    text-align: center;
+  }
+  
+  .slot-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  #resultado-batalla {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  /* Animación de VS */
+.vs-animado {
+  font-size: 4em;
+  animation: zoomInOut 1s ease-in-out infinite alternate;
+  color: red;
+}
+
+@keyframes zoomInOut {
+  from { transform: scale(1); opacity: 0.6; }
+  to { transform: scale(1.3); opacity: 1; }
+}
+
+/* Resultado animado */
+#resultado-batalla {
+  font-size: 1.5em;
+  font-weight: bold;
+  transition: all 0.5s ease-in-out;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.resultado-ganar {
+  color: green;
+  animation: pulse 0.6s ease-in-out;
+}
+
+.resultado-perder {
+  color: crimson;
+  animation: shake 0.5s;
+}
+
+.resultado-empate {
+  color: orange;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.9; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.resultado-final {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.95);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3em;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none; /* << evita que bloquee cuando esté oculto */
+  transition: opacity 0.6s ease;
+}
+
+.resultado-final.mostrar {
+  opacity: 1;
+  pointer-events: all; /* << permite interacciones cuando visible */
+}

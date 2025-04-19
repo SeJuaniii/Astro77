@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Batalla - Astro 7.7</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header>
+    <h1>⚔️ Simulador de Batalla</h1>
+    <nav>
+      <a href="../index.html">Inicio</a>
+      <a href="pokedex.html">Pokédex</a>
+      <a href="equipo.html">Constructor</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="batalla.html" class="activo">Batalla</a>
+    </nav>
+  </header>
+
+  <main class="batalla-main">
+    <section class="equipo">
+      <h2>Tu Equipo</h2>
+      <div id="equipo-jugador" class="slot-container">
+        <!-- Pokémon seleccionados aparecerán aquí -->
+      </div>
+    </section>
+
+    <section class="vs">
+      <h2>VS</h2>
+      <button id="iniciar-batalla">🔁 Combatir</button>
+    </section>
+
+    <section class="equipo">
+      <h2>Equipo Rival</h2>
+      <div id="equipo-rival" class="slot-container">
+        <!-- Pokémon rivales se mostrarán aquí -->
+      </div>
+    </section>
+
+    <section id="resultado-batalla">
+      <!-- Resultado del combate aparecerá aquí -->
+    </section>
+  </main>
+  <div id="pantalla-final" class="resultado-final"></div>
+  <script src="../js/batalla.js"></script>
+</body>
+</html>
