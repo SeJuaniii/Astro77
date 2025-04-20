@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Pokémon</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <button id="toggleMusic">🔇 Música: OFF</button>
+    <audio id="bgMusic" loop>
+      <source src="../music/route1.mp3" type="audio/mpeg">
+      Tu navegador no soporta audio HTML5.
+    </audio>    
+
+  <header>
+    <h1>Astro 7.7 - Quiz Pokémon</h1>
+    <nav>
+      <a href="../index.html">Inicio</a>
+    </nav>
+    <label class="switch">
+      <input type="checkbox" id="darkToggle">
+      <span class="slider round"></span> 🌙
+    </label>
+  </header>
+
+  <main>
+    <section id="quiz">
+      <h2>¿Qué tipo de Entrenador Pokémon eres?</h2>
+      <form id="quizForm">
+        <div id="barraContainer">
+            <div id="barraProgreso"></div>
+          </div>
+          
+          <div id="preguntasContainer">
+            <!-- Las preguntas se generan aquí automáticamente -->
+          </div>
+          
+          <button type="submit">Ver resultado</button>          
+      </form>
+
+      <div id="resultadoQuiz"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Astro 7.7 - Proyecto Pokémon Educativo</p>
+  </footer>
+
+  <script src="../js/quiz.js"></script>
+  <script>
+    (() => {
+      const audioElement = document.getElementById("bgMusic");
+      const toggleBtn = document.getElementById("toggleMusic");
+  
+      toggleBtn.addEventListener("click", async () => {
+        try {
+          if (audioElement.paused) {
+            await audioElement.play();
+            toggleBtn.textContent = "🎵 Música: ON";
+          } else {
+            audioElement.pause();
+            toggleBtn.textContent = "🔇 Música: OFF";
+          }
+        } catch (err) {
+          console.error("Error al reproducir el audio:", err);
+        }
+      });
+  
+      const darkToggle = document.getElementById("darkToggle");
+      darkToggle.addEventListener("change", () => {
+        document.body.classList.toggle("dark-mode");
+      });
+    })();
+  </script>   
+</body>
+</html>
